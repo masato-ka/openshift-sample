@@ -29,7 +29,9 @@ public class AppConfig {
 		String url;
 		String username;
 		String password;
-		
+		//Add POSTGRES_URL to enviroment variable like heroku.
+		//for example on Openshift
+		//oc env dc openshift-sample POSTGRES_URL=postgres://newuser123:hogehoge123@172.30.66.169/database_name
 		String databaseUrl = System.getenv("POSTGRES_URL");
 		if (databaseUrl != null) {
 			URI dbUri = new URI(databaseUrl);
