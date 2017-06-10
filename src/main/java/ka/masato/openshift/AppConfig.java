@@ -31,14 +31,17 @@ public class AppConfig {
 		String password;
 		//Add POSTGRES_URL to enviroment variable like heroku.
 		//for example on Openshift
-		//oc env dc openshift-sample POSTGRES_URL=postgres://newuser123:hogehoge123@172.30.66.169/database_name
+		//oc new-app openshift-sample 
+		//	-e POSTGRES_URL=postgres://newuser123:hogehoge123@xxx.xx.xx.xxx/database_name
+		//	-e SPRING_PROFILES_ACTIVE=production
 		String databaseUrl = System.getenv("POSTGRES_URL");
+		
 		if (databaseUrl != null) {
 			URI dbUri = new URI(databaseUrl);
 			url = "jdbc:postgresql://" + dbUri.getHost() + ":" + dbUri.getPort() + dbUri.getPath();
 			username = dbUri.getUserInfo().split(":")[0];
 			password = dbUri.getUserInfo().split(":")[1];
-		} else {
+		}else {
 			url = this.properties.getUrl();
 			username = this.properties.getUsername();
 			password = this.properties.getPassword();
