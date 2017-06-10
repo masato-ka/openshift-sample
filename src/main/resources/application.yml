@@ -19,7 +19,7 @@ spring:
     port: 6379
 ---
 spring:
-  profiles: heroku
+  profiles: production
   datasource:
     driverClassName: org.postgresql.Driver
   jpa:
