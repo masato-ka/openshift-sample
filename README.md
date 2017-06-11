@@ -12,7 +12,14 @@ minishiftのインストール方法は[Installing minishift](https://docs.opens
 OSXのxhyveとLinuxのKVMを利用する場合、Docker Machineのドライバーをあらかじめインストールする。
 [Setting up the plugin driver](https://docs.openshift.org/latest/minishift/getting-started/setting-up-driver-plugin.html)
 
-### StartUp minishift
+以下の手順でアプリケーションを作成します。
+
+1. StartUp minishift
+2. Create new project
+3. Create PostgreSQL container
+4. Deploy this application
+
+### 1. StartUp minishift
 
 以下のコマンドでminishiftを起動します。環境によって--vm-driverオプションやproxyの設定が必要になります。
 詳細は[このページを参照してください。](https://docs.openshift.org/latest/minishift/index.html)
@@ -57,7 +64,7 @@ PostgreSQLのコンテナをspring-boot-sampleプロジェクトへ作成しま�
 $ oc new-app -e POSTGRESQL_USER=user -e POSTGRESQL_PASSWORD=password -e POSTGRESQL_DATABASE=sample centos/postgresql-94-centos7
 ```
 
-### Deploy sample application
+### Deploy this application
 
 PostgreSQLのコンテナが起動した後、アプリケーションのデプロイを実行します。
 アプリケーションのデプロイは以下のコマンドで実行します。
