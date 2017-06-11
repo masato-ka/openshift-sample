@@ -61,15 +61,13 @@ PostgreSQLのコンテナが起動した後、アプリケーションのデプ�
 アプリケーションのデプロイは以下のコマンドで実行します。
 
 ```
-$ oc new-app codecentric/springboot-maven3-centos~https://github.com/masato-ka/openshift-sample.git -e POSTGRES_URL=postgres://user:password@172.30.54.151/sample
+$ oc new-app -e SPRING_PROFILES_ACTIVE=production -e POSTGRESQL_USER=user -e POSTGRESQL_PASSWORD=password -e POSTGRESQL_DATABASE=sample codecentric/springboot-maven3-centos~https://github.com/masato-ka/openshift-sample.git
 ```
-new-app直後にこのアプリケーションを動かすDocker Imageの名前を指定します。'~'に続けてアプリケーションのリポジトリURLを指定します。
-最後に環境変数名を指定します。
 
-| ENV Name   | The specified value | Meaning |
-|:-----------|--------------------:|:-------:|
-| POSTGRESQL_URL       | postgres://user:password@xxx.xxx.xxx.xxx:5432/sample |    postgresの指定値を変更　     |
-| SPRING_PROFILES_ACTIVE     |   production |    Springのプロファイルを指定。今回はapplication.ymlの読み込みを変更    |
+コマンドは以下の書式になっています。
+```
+$ oc new-app -e SPRING_PROFILES_ACTIVE=Springのプロファイル名 -e POSTGRESQL_USER=データベースユーザ -e POSTGRESQL_PASSWORD=パスワード -e POSTGRESQL_DATABASE=データベース名 アプリケーションを動かすコンテナイメージ~アプリケーションのリポジトリURL
+```
 
 ### URLのexpose
 

@@ -23,25 +23,30 @@ public class AppConfig {
 	DataSource dataSource;
 	
 
-//	@ConfigurationProperties(prefix = DataSourceProperties.PREFIX)
 	@Bean(destroyMethod = "close")
 	DataSource realDataSource() throws URISyntaxException {
 		String url;
 		String username;
 		String password;
-		//Add POSTGRES_URL to enviroment variable like heroku.
-		//for example on Openshift
-		//oc new-app openshift-sample 
-		//	-e POSTGRES_URL=postgres://newuser123:hogehoge123@xxx.xx.xx.xxx:5432/database_name
-		//	-e SPRING_PROFILES_ACTIVE=production
-		String databaseUrl = System.getenv("POSTGRES_URL");
 		
-		if (databaseUrl != null) {
-			URI dbUri = new URI(databaseUrl);
+		String herokuPsqlUrl = System.getenv("POSTGRES_URL");
+		
+		String openshiftPsqlUrl = System.getenv("POSTGRESQL_94_CENTOS7_PORT_5432_TCP");
+		if (herokuPsqlUrl != null) {
+			//heroku
+			URI dbUri = new URI(herokuPsqlUrl);
 			url = "jdbc:postgresql://" + dbUri.getHost() + ":" + dbUri.getPort() + dbUri.getPath();
 			username = dbUri.getUserInfo().split(":")[0];
 			password = dbUri.getUserInfo().split(":")[1];
-		}else {
+		}else if(openshiftPsqlUrl != null) {		
+			//openshift
+			username = System.getenv("POSTGRES_USER");
+			password = System.getenv("POSTGRES_PASSWORD");
+			String database = System.getenv("POSTGRES_DATABASE");
+			URI dbUri = new URI(openshiftPsqlUrl);
+			url = "jdbc:postgresql://" + dbUri.getHost() + ":" + dbUri.getPort() + database;
+		}else{
+			//local
 			url = this.properties.getUrl();
 			username = this.properties.getUsername();
 			password = this.properties.getPassword();
