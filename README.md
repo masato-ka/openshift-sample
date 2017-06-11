@@ -9,7 +9,7 @@ OpenShift上でPostgreSQLのコンテナと接続して利用します。
 OpenShift環境はminishiftを利用してローカルに構築します。
 minishiftのインストール方法は[Installing minishift](https://docs.openshift.org/latest/minishift/getting-started/installing.html)を参考にしてください。
 
-ハイパーバイザーにOSXのxhyveとLinuxのKVMを利用する場合、Docker Machineのドライバーをインストールする必要があります。
+OSXのxhyveとLinuxのKVMを利用する場合、Docker Machineのドライバーをあらかじめインストールする。
 [Setting up the plugin driver](https://docs.openshift.org/latest/minishift/getting-started/setting-up-driver-plugin.html)
 
 ### StartUp minishift
@@ -17,20 +17,18 @@ minishiftのインストール方法は[Installing minishift](https://docs.opens
 以下のコマンドでminishiftを起動します。環境によって--vm-driverオプションやproxyの設定が必要になります。
 詳細は[このページを参照してください。](https://docs.openshift.org/latest/minishift/index.html)
 
-'''
+```
 $minishift start
-'''
+```
 
 ocコマンド(OpenShift client)へパスを通します。
 今回はOpenShift 1.5.0を使いました。バージョン表記は環境に合わせて変更してください。
 
-'''
+```
 $ export PATH=$PATH;~/.minishift/cache/oc/v1.5.0/
-'''
+```
 
-以上でOpenShiftの準備は完了です。
-
-### Preparing project
+### Create new project
 
 以下のコマンドで新しいプロジェクトを作成します。プロジェクト名は任意です。
 ここではspring-boot-sampleとしています。
