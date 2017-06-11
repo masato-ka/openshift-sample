@@ -32,7 +32,7 @@ public class AppConfig {
 		//Add POSTGRES_URL to enviroment variable like heroku.
 		//for example on Openshift
 		//oc new-app openshift-sample 
-		//	-e POSTGRES_URL=postgres://newuser123:hogehoge123@xxx.xx.xx.xxx/database_name
+		//	-e POSTGRES_URL=postgres://newuser123:hogehoge123@xxx.xx.xx.xxx:5432/database_name
 		//	-e SPRING_PROFILES_ACTIVE=production
 		String databaseUrl = System.getenv("POSTGRES_URL");
 		
