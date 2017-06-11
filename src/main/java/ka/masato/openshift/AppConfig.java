@@ -40,11 +40,11 @@ public class AppConfig {
 			password = dbUri.getUserInfo().split(":")[1];
 		}else if(openshiftPsqlUrl != null) {		
 			//openshift
-			username = System.getenv("POSTGRES_USER");
-			password = System.getenv("POSTGRES_PASSWORD");
-			String database = System.getenv("POSTGRES_DATABASE");
+			username = System.getenv("POSTGRESQL_USER");
+			password = System.getenv("POSTGRESQL_PASSWORD");
+			String database = System.getenv("POSTGRESQL_DATABASE");
 			URI dbUri = new URI(openshiftPsqlUrl);
-			url = "jdbc:postgresql://" + dbUri.getHost() + ":" + dbUri.getPort() + database;
+			url = "jdbc:postgresql://" + dbUri.getHost() + ":" + dbUri.getPort() + "/" + database;
 		}else{
 			//local
 			url = this.properties.getUrl();
