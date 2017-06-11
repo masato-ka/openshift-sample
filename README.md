@@ -1,7 +1,5 @@
 # Sample program SpringBoot for OpenShift
 
-
-
 SpringBootのアプリケーションをOpenShiftにデプロイするためのサンプルプログラムです。
 OpenShift上でPostgreSQLのコンテナと接続して利用します。
 ローカル環境ではPostgreSQLの代わりにH2 DBを利用して起動します。
@@ -16,14 +14,16 @@ minishiftのインストール方法は[Installing minishift](https://docs.opens
 
 ### StartUp minishift
 
-以下のコマンドでminishiftを起動します。
+以下のコマンドでminishiftを起動します。環境によって--vm-driverオプションやproxyの設定が必要になります。
+詳細は[このページを参照してください。](https://docs.openshift.org/latest/minishift/index.html)
 
 '''
-# 各OSデフォルトのHyperVisorを使う場合
 $minishift start
 '''
 
 ocコマンド(OpenShift client)へパスを通します。
+今回はOpenShift 1.5.0を使いました。バージョン表記は環境に合わせて変更してください。
+
 '''
 $ export PATH=$PATH;~/.minishift/cache/oc/v1.5.0/
 '''
@@ -45,11 +45,15 @@ PostgreSQLのコンテナをspring-boot-sampleプロジェクトへ作成しま�
 アプリケーションから接続するユーザ名、パスワード、使用するDB名を指定します。
 それぞれの値はコンテナの環境変数として指定します。
 
+[参考](https://docs.openshift.org/latest/using_images/db_images/postgresql.html)
+
 | ENV Name   | The specified value | Meaning |
 |:-----------|--------------------:|:-------:|
 | POSTGRESQL_USER       |        user |     接続ユーザ名     |
 | POSTGRESQL_PASSWORD     |      password |    パスワード    |
 | POSTGRESQL_DATABASE       |        sample |     データベース名    |
+
+
 
 ```
 $ oc new-app -e POSTGRESQL_USER=user -e POSTGRESQL_PASSWORD=password -e POSTGRESQL_DATABASE=sample centos/postgresql-94-centos7
@@ -69,14 +73,31 @@ $ oc new-app -e SPRING_PROFILES_ACTIVE=production -e POSTGRESQL_USER=user -e POS
 $ oc new-app -e SPRING_PROFILES_ACTIVE=Springのプロファイル名 -e POSTGRESQL_USER=データベースユーザ -e POSTGRESQL_PASSWORD=パスワード -e POSTGRESQL_DATABASE=データベース名 アプリケーションを動かすコンテナイメージ~アプリケーションのリポジトリURL
 ```
 
+ビルド中のログは以下のコマンド確認できます。
+
+```
+$ oc log -f bc/openshift-sample
+```
+
+ビルド完了後、アプリケーションのログは以下のコマンドで確認できます。
+
+```
+$ oc log -f dc/openshift-sample
+```
+
 ### URLのexpose
 
-下記のコマンドを使い外部にアプリケーションを公開する。
+下記のコマンドで外部にアプリケーションを公開します。
 
 ```
-$oc expose openshift-sample
+$oc expose svc/openshift-sample
 ```
 
+公開されるホスト名は以下のコマンドで取得できます。
+
+```
+$ oc get route
+```
 
 ## Usage
 
