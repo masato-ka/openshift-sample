@@ -68,6 +68,7 @@ $ oc new-app -e POSTGRESQL_USER=user -e POSTGRESQL_PASSWORD=password -e POSTGRES
 
 PostgreSQLのコンテナが起動した後、アプリケーションのデプロイを実行します。
 アプリケーションのデプロイは以下のコマンドで実行します。
+イメージのビルドと実行に利用するコンテナイメージは[codecentric/springboot-maven3-centos](https://hub.docker.com/r/codecentric/springboot-maven3-centos/)です。
 
 ```
 $ oc new-app -e SPRING_PROFILES_ACTIVE=production -e POSTGRESQL_USER=user -e POSTGRESQL_PASSWORD=password -e POSTGRESQL_DATABASE=sample codecentric/springboot-maven3-centos~https://github.com/masato-ka/openshift-sample.git
